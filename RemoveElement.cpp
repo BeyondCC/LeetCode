@@ -1,23 +1,11 @@
-// Source :  
+// Source : https://oj.leetcode.com/problems/remove-element/
 // Author : Cheng Chen
-// Date   : 2014-11-02
+// Date   : 2014-11-29
 
 /********************************************************************************** 
-  * 
-  * Given a binary tree, return the preorder traversal of its nodes' values.
-  * 
-  * For example:
-  * Given binary tree {1,#,2,3},
-  * 
-  *    1
-  *     \
-  *      2
-  *     /
-  *    3
-  * i
-  * return [1,2,3].
-  * 
-  * Note: Recursive solution is trivial, could you do it iteratively?
+  * Given an array and a value, remove all instances of that value in place and return the new length.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length. 
   *               
   **********************************************************************************/
 

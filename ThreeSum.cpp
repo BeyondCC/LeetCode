@@ -20,34 +20,36 @@ vector<vector<int> > threeSum(vector<int> &num) {
 
     sort(num.begin(), num.end());
 //-4 -1 -1 0 1 2
-    for(int i = 0; i < num.size(); i++) {
-        if(num[i] > 0)
-            break;
-        if(i > 0 && (num[i] == num[i - 1]))
-            continue;
-        
-        int start = i + 1, end = num.size() - 1;
-        while(start < end)
-        {
-            if(start > i + 1 && num[start] == num[start - 1])
-                start++;
-            else if(end < num.size() - 1 && num[end] == num[end + 1])
-                end--;
-            else if(num[i] + num[start] + num[end] == 0)
+    for(int i = 0; i < num.size() - 2; i++) {
+       
+        //duplicate
+        if(i == 0 || num[i] > num[i - 1]) {
+            int start = i + 1, end = num.size() - 1;
+            while(start < end)
             {
-                visit.push_back(num[i]);
-                visit.push_back(num[start]);
-                visit.push_back(num[end]);
-//                printArr(visit);
-                result.push_back(visit);
-                visit.clear();
+                if(num[i] + num[start] + num[end] == 0)
+                {
+                    visit.push_back(num[i]);
+                    visit.push_back(num[start]);
+                    visit.push_back(num[end]);
+//                  printArr(visit);
+                    result.push_back(visit);
+                    visit.clear();
 
-                start++;
-                end--;
-            }else if(num[i] + num[start] + num[end] < 0){
-                start++;
-           }else
-                end--;
+                    start++;
+                    end--;
+                    
+                    //duplicate
+                    while(start < end && num[start] == num[start - 1])
+                        start++;
+
+                    while(start < end && num[end] == num[end + 1])
+                        end--;
+                }else if(num[i] + num[start] + num[end] < 0){
+                    start++;
+                }else
+                    end--;
+            }
         }
     }
     return result;

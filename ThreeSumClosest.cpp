@@ -7,6 +7,7 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<climits>
 using namespace std;
 
 void printArr(vector<int> v);
@@ -23,8 +24,7 @@ int threeSum(vector<int> &num, int target) {
         return result;
 
     sort(num.begin(), num.end());
-    result = abs(num[0] + num[1] + num[2] - target);
-    cout<<"re: "<<result<<endl;
+    int min = INT_MAX;
 //-4 -1 1 2
     for(int i = 0; i < num.size() - 2; i++) {
        
@@ -33,33 +33,19 @@ int threeSum(vector<int> &num, int target) {
             int start = i + 1, end = num.size() - 1;
             while(start < end)
             {
-                int sum = num[i] + num[start] + num[end];
-                cout<<"sum: "<<sum<<endl;
-                if(abs(sum - target) < abs(result)){
-                    result = sum;
-                    cout<<"result: in: "<<result<<endl; 
-                    visit.push_back(num[i]);
-                    visit.push_back(num[start]);
-                    visit.push_back(num[end]);
-
+                  int sum = num[i] + num[start] + num[end];
+                  if(abs(sum - target) < min){
+                        result = sum;        
+                        min = abs(sum - target);
+                  }
+                  if(sum <= target)
                     start++;
-                    end--;
-                    
-                    //duplicate
-                    while(start < end && num[start] == num[start - 1])
-                        start++;
-
-                    while(start < end && num[end] == num[end + 1])
-                        end--;
-                }else if(sum < 0){
-                    start++;
-                }else
-                    end--;
+                  else
+                     end--;
             }
         }
     }
 
-    printArr(visit);
     return result;
 }
 

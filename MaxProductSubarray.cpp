@@ -7,31 +7,39 @@
  *
  */
 
+// -2 1 -3 4 -1 2 1 -5 4
+
 #include<iostream>
-#include<math.h>
+#include<cmath>
 
 using namespace std;
 //2 3 -2 4
 int maxProduct(int A[], int n) {
-    int result = A[0];
-    int min = A[0];
+    if(A == NULL || n == 0)
+        return 0;
+
+    if(n == 1)
+        return A[0];
+
+    int max_local = A[0];
+    int min_local = A[0];
+    int global = A[0];
 
     for(int i = 1; i < n; i++) {
-        if(result * A[i] * min < A[i]) {
-            result = A[i];
+        int max_cpy = max_local;
+        max_local = max(max(max_local * A[i], A[i]), A[i] * min_local);
+        min_local = min(min(max_cpy * A[i], A[i]), A[i] * min_local);
 
-            
-        }
+        global = max(max_local, global);
     }
 
-    return result;
+    return global;
 }
 
 int main(int argc, char *argv[]) {
 
     int A[] = {2,3,-2,4};
 
-    //cout<<maxProduct(A, 4);
-    Math.min(3, 4);
+    cout<<maxProduct(A, 4);
     return 0;
 }

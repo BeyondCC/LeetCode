@@ -43,30 +43,35 @@ vector<string> wordBreakBrute(string s, unordered_set<string> &dict) {
 
 void helper(int start, string s, string item, vector<string> result, unordered_set<string> dict) {
 
-    if(start > s.length()) {
+    if(start >= s.length()) {
+//        cout<<"start:"<<start<<" s.length:"<<s.length()<<endl;
         cout<<"item: "<<item<<endl;
         result.push_back(item);
         return;
     }
 
+    string tmp;
     for(int j = start; j < s.length(); j++) {
-        string tmp = s.substr(start, j + 1);
+
+ //       cout<<"start:"<<start<<" j:"<<j<<endl;
+        tmp += s[j];
+   //     cout<<"tmp "<<tmp<<endl;
 
         if(dict.count(tmp)){
+            string newItem;
             if(item.length() == 0 )
-                item += tmp;
+                newItem += tmp;
             else{
-                item += " ";
-                item += tmp;
-
+                newItem += item;
+                newItem += " ";
+                newItem += tmp;
             }
-            helper(start + j + 1, s, item, result, dict);
+
+            //cout<<"length os s is"<<s.length()<<" "<<start + j + 1<<endl;
+            helper( j + 1, s, newItem, result, dict);
         }
-        if(j == s.length() - 1)
-            cout<<"result:"<<result<<endl;
     }
 }
-
 
 vector<string> wordBreak(string s, unordered_set<string> &dict) {
 
@@ -79,22 +84,8 @@ vector<string> wordBreak(string s, unordered_set<string> &dict) {
     string result;
 
     for(int i = 0; i < s.length(); i++) {
-        if(res[i]){
             for(int j = i; j < s.length(); j++) {
-                string tmp = s.substr(i, j + 1);
-                cout<<"tmp: "<<tmp<<endl;
-                if(dict.count(tmp)){
-                    result += tmp;
-                    cout<<"add tmp: "<<tmp<<endl;
-                    cout<<"j is "<<j + 1<<endl;
-                    res[i + j + 1] = true;
-                    if(j != s.length() - 1) {
-                        result += " ";
-                    }
-                    break;
-                }
             }
-        }
     }
 
     resVector.push_back(result);

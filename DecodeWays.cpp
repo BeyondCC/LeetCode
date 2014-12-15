@@ -23,46 +23,33 @@ using namespace std;
 
 int numDecodings(string s) {
     int size = s.length();
-    int *p = new int[size];
+    int *dp = new int[size + 1];
 
-    if(s == "" || s == "0")
+    if(size == 0)
         return 0;
 
-    for(int i = 0; i < s.length(); i++){
-        p[i] = 0;
+    dp[0] = 1;
+    if(s[0] != '0')
+        dp[1] = 1;
+    else 
+        dp[1] = 0;
+
+    for(int i = 2; i <= size; i++)
+    {
+        if(s[i - 1] != '0')
+            dp[i] = dp[i - 1];
+        else
+            dp[i] = 0;
+//the end consider as a char or two char
+        if(s[i - 2] == '1' ||( s[i - 2] == '2' && s[i - 1] <= '6'))
+                dp[i] += dp[i -2];
     }
 
-    if(s[0] == '0')
-        p[0] = 0;
-    else
-        p[0] = 1;
-
-    for(int i = 1; i < s.length(); i++) {
-        int compose = (s[i - 1] - '0') * 10  + s[i] - '0';
-        cout<<compose<<endl;
-
-        if( compose > 26 || compose < 1){
-            if(i > 1 && i < s.length() - 1) {
-                int preCompose = (s[i - 2] - '0' ) * 10  + s[i - 1] - '0'; 
-                if(preCompose > 26 || preCompose < 1)
-                    return 0;
-                else if(compose > 26 || compose < 1) { 
-                    p[i] = p[i - 1] - 1;
-        }else if(s[i] == '0'){
-            p[i] = p[i - 1];
-        }else{
-            p[i] = p[i - 1] + 1;
-        }
-
-        if(p[i] < 0)
-            return 0;
-    }
-
-    return p[size - 1];
+    return dp[size];
 }
 
 int main(int argc, char *argv[]) {
-    string s = "11";
+    string s = "012";
     cout<<numDecodings(s)<<endl;
     return 0;
 }

@@ -58,7 +58,8 @@ void printArr(int *arr, int len) {
 }
 
 int main(int argc, char *argv[]) {
-    string s = "i am a student";
+    //string s = "  i am a student";
+    string s = " ";
     reverseWords(s);
     return 0;
 }

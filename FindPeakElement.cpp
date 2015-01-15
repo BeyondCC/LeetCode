@@ -23,10 +23,36 @@ For example, in array [1, 2, 3, 1], 3 is a peak element and your function should
 using namespace std;
 
 int findPeakElement(const vector<int> &num) {
-   
+    int start = 0, end = num.size() - 1;
+    int middle = (start + end) / 2;
+
+    while(start <= end) {
+           
+        if (start == end) {
+            return start;
+        }
+
+        if (num[middle] > num[middle + 1]) {
+            end = middle;
+        }else{
+            start = middle + 1;
+        }
+
+        middle = (start + end) / 2;
+    }
+
+    return start;
 }
 
 int main(int argc, char *argv[]) {
+    vector<int> v;
+
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(1);
+
+    cout<<"peak index is "<<findPeakElement(v)<<endl;
     return 0;
 }
 

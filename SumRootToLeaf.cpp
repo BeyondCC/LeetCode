@@ -1,22 +1,31 @@
-// Source : https://oj.leetcode.com/problems/validate-binary-search-tree/# 
+// Source : https://oj.leetcode.com/problems/sum-root-to-leaf-numbers/ 
 // Author : Cheng Chen
 // Date   : 2015-01-31
 
 /********************************************************************************** 
-  *  Given a binary tree, determine if it is a valid binary search tree (BST).
-  *
-  *  Assume a BST is defined as follows:
-  *
-  *  The left subtree of a node contains only nodes with keys less than the node's key.
-  *  The right subtree of a node contains only nodes with keys greater than the node's key.
-  *  Both the left and right subtrees must also be binary search trees.
-  *
+  *  
+  *Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+  An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+  Find the total sum of all root-to-leaf numbers.
+
+  For example,
+
+      1
+     / \
+    2   3
+    
+    The root-to-leaf path 1->2 represents the number 12.
+    The root-to-leaf path 1->3 represents the number 13.
+
+    Return the sum = 12 + 13 = 25.
   *               
   **********************************************************************************/
 
 #include<iostream>
 #include<vector>
-//#include<stack>
+#include<stack>
 
 using namespace std;
 
@@ -94,67 +103,78 @@ void printTree_pre_order(TreeNode *root)
     printTree_pre_order(root->right);
 }
 
-bool isValidBSTHelper(TreeNode *root, long minValue, long maxValue) {
-    if (root == NULL)
-    {
-        return true;
-    }
-
-    if (root->val > maxValue || root->val < minValue)
-    {
-        return false;
-    }
-
-    return isValidBSTHelper(root->left, minValue, root->val) && isValidBSTHelper(root->right, root->val, maxValue);
-}
-
-
-//有效的二插查找树，中序遍历是升序的
-//所以中序遍历这棵树，当前节点跟前驱进行比较
-bool helper(TreeNode *root, TreeNode *&pre){
-
-    if (root == NULL)
-    {
-        return true;
-    }
-    //遍历左子树
-    bool leftFlag = helper(root->left, pre);
-
-    if (pre)
-    {
-        cout<<"pre:"<<(pre)->val<<endl;
-        cout<<"root:"<<root->val<<endl;
-    }
-    if (pre != NULL && ((pre)->val) >= root->val)
-    {
-        return false;
-    }
-//当前节点设置为前驱
-    pre = root;
-
-    return leftFlag && helper(root->right, pre);
-}
-
 void printArray(vector<int> v)
 {
-        for(int i=0; i<v.size(); i++){
-                    cout << v[i] << " ";
-                        }
-            cout << endl;
+    for(int i=0; i<v.size(); i++){
+        cout << v[i] << " ";
+    }
+    cout << endl;
 }
 
-bool isValidBST(TreeNode *root){
-    TreeNode *tmp =NULL;
-    return helper(root, tmp);
-//    return isValidBSTHelper(root, LONG_MIN, LONG_MAX);
+int sumOfStack(stack<TreeNode*> root)
+{
+    int sum = 0;
+
+    while(!root.empty())
+    {
+        sum += root.top()->val;
+        root.pop();
+    }
+
+    cout<<"sum:"<<sum<<endl;
+    return sum;
+}
+
+int sumNumbers(TreeNode *root) {           
+    
+    TreeNode *visit = root;
+    TreeNode *lastVisit = NULL;
+
+    int sum = 0;
+    int pathSum = 0;
+    stack<TreeNode*> s;
+    
+    while(visit || s.size() > 0)
+    {
+        while(visit)
+        {
+            s.push(visit);
+            pathSum = pathSum * 10 + visit->val;
+            visit = visit->left;
+        }
+
+        if (!s.empty())
+        {
+            //the topNode should not be the visit node while it will in death loop in the above while loop
+            TreeNode *topNode = s.top();
+
+            if (!topNode->left && !topNode->right)
+            {
+                sum += pathSum; 
+            }
+
+            if (topNode->right && topNode->right != lastVisit)
+            {
+                visit = topNode->right;
+            }else{
+                s.pop();
+                pathSum /= 10;
+                lastVisit = topNode;
+            }
+        }
+    }
+
+    return sum;
 }
 
 int main()
 {
     TreeNode *noe = new TreeNode(7);
-    int a[] = {1, 1};
+    int a[] = {1, 2, 3, 4, 5};
     TreeNode* p = createTree(a, sizeof(a)/sizeof(int));
     printTree_pre_order(p);
-    cout <<"is valid binary search tree"<<isValidBST(p);
+    cout<<endl;
+
+    cout<<"the sum of root to leaf path  is "<<sumNumbers(p)<<endl;
     return 0;
 }

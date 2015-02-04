@@ -54,12 +54,25 @@ bool canJump(int A[], int n) {
     return flag[n - 1];
 }
 
+//time O(n), space O(1)
+bool canJumpPre(int A[], int n) {
+    
+    int maxReachPos = 0;
+
+    //全局最大值和局部最大值
+    for (int i = 0; i <= maxReachPos && i < n; ++i)
+    {
+        maxReachPos = max(i + A[i], maxReachPos);
+    }
+
+    return maxReachPos >= n - 1;
+}
 int main(int argc, char *argv[]) {
     int A[] = {2,3,1,1,4};
     int B[] = {3,2,1,0,4};
 
-    cout<<canJump(A, 5)<<endl;
-    cout<<canJump(B, 5)<<endl;
+    cout<<canJumpPre(A, 5)<<endl;
+    cout<<canJumpPre(B, 5)<<endl;
 
     return 0;
 }

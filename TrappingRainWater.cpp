@@ -53,11 +53,56 @@ int trap(int A[], int n) {
     return res;
 }
 
+
+//两边夹逼
+//当小的一侧向中间靠拢时，如果下一个比当前的高度要小时停止，表示该位置可以注水，如果下一个比当前大时，重新判断两侧高度的大小
+//O(n)
+int trapPre(int A[], int n) {
+    int res = 0;
+    int left = 0;
+    int right = n - 1;
+
+    while(left < right) {
+        
+        int minSide = min(A[left], A[right]);
+
+        if (minSide == A[left])
+        {
+            left++;
+
+            while(left < right)
+            {
+                if (A[left] < minSide) 
+                {
+                    res += minSide - A[left];   
+                    left++;
+                }else{
+                    break;
+                }
+            }
+        }else{
+            right--;
+
+            while(left < right)
+            {
+                if (A[right] < minSide)
+                {
+                    res += minSide - A[right];
+                    right--;
+                }else{
+                    break;
+                }
+            }
+        }       
+    }
+
+    return res;
+}
 int main(int argc, char *argv[]) {
 
     int A[] = {0,1,0,2,1,0,1,3,2,1,2,1};
 
-    cout<<trap(A, 12)<<endl;
+    cout<<trapPre(A, 12)<<endl;
     return 0;
 }
 

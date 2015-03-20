@@ -33,6 +33,7 @@ vector<int> preorder(TreeNode * root)
     vector<int> v;
     vector<TreeNode*> stack;
 
+
     if(root)
         stack.push_back(root);
 

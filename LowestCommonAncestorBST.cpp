@@ -78,8 +78,23 @@ void findTreeNode(vector<TreeNode*> &stk, TreeNode* root, TreeNode *node) {
     }
 }
 
-//get the ancestor nodes of two nodes and then compare them
 TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (root == NULL) {
+       return root;
+    }
+
+    if (root->val > p->val && root->val > q->val) {
+        return lowestCommonAncestor(root->left, p, q);
+    }
+
+    if (root->val < p->val && root->val < q->val) {
+        return lowestCommonAncestor(root->right, p, q);
+    }
+
+    return root;
+}
+//get the ancestor nodes of two nodes and then compare them
+TreeNode* lowestCommonAncestorPre(TreeNode* root, TreeNode* p, TreeNode* q) {
     vector<TreeNode*> stack_p;
     vector<TreeNode*> stack_q;
 
@@ -119,12 +134,13 @@ void printTree_pre_order(TreeNode *root)
 }
 
 int main(int argc, char *argv[]) {
-    int a[] = {6, 2, 8, 1, 4, 7, 9};
+    //int a[] = {6, 2, 8, 1, 4, 7, 9};
+    int a[] = {2, 0, 3};
     TreeNode *root = createTree(a, sizeof(a)/sizeof(int));
-    printTree_pre_order(root);
+//    printTree_pre_order(root);
 
-    TreeNode *p = new TreeNode(2);
-    TreeNode *q = new TreeNode(8);
+    TreeNode *p = new TreeNode(3);
+    TreeNode *q = new TreeNode(2);
 
     TreeNode *res = lowestCommonAncestor(root, p, q); 
     cout<<res->val<<endl;

@@ -40,9 +40,12 @@ TreeNode* insertNode(TreeNode *tree, int value, int index){
     return tree;
 }
 
-bool inorder(TreeNode *tree, int k, int t) {
+bool inorder(TreeNode *tree, int k, int t, int size) {
     stack<TreeNode*> st;
     TreeNode *pre = NULL;
+
+    TreeNode **list = new TreeNode*[size];
+    int count = 0;
 
     while(tree != NULL || st.size() > 0)
     {
@@ -53,30 +56,30 @@ bool inorder(TreeNode *tree, int k, int t) {
         }
 
         if (st.size() > 0) {
-            if (pre == NULL) {
-                pre = st.top();
-                st.pop();
+            TreeNode *top = st.top();
 
-                tree = pre->right;
-            }else{
-                TreeNode *top = st.top();
-
+            for (int i = count - 1; i >= 0 ; --i) {
+                TreeNode *pre = list[i];
+                if (abs(top->val - pre->val) > t ) {
+                    break;
+                }
                 if (abs(top->val - pre->val) <= t &&  abs(top->index - pre->index) <= k) {
                     return true;
                 }
+            }             
 
-                tree = top->right;
-                pre = top;
-                st.pop();
-            }
+            list[count++] = top;
+            tree = top->right;
+            st.pop();
 
-            if (pre) {
-                cout<<"pre:"<<pre->val<<endl;
-            }
+            cout<<"visit: "<<top->val<<endl;
+            //if (pre) {
+            //    cout<<"pre:"<<pre->val<<endl;
+            //}
 
-            if (tree) {
-                cout<<"current:"<<tree->val<<endl;
-            }
+            //if (tree) {
+            //    cout<<"current:"<<tree->val<<endl;
+            //}
         }
 
     }
@@ -86,7 +89,7 @@ bool inorder(TreeNode *tree, int k, int t) {
 bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
     unordered_map<int, int> dict;
 
-    if (nums.size() < k || nums.size() == 0) {
+    if (nums.size() == 0) {
         return false;
     }
     TreeNode *root = new TreeNode(nums[0], 0);
@@ -95,16 +98,16 @@ bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
     }
 
 
-    return inorder(root, k, t);
+    return inorder(root, k, t, nums.size());
 }
 
 int main(int argc, char *argv[]) {
     vector<int> nums;
 
-    nums.push_back(2);
-    nums.push_back(2);
+    nums.push_back(-1);
+    nums.push_back(-1);
 
-    cout<<containsNearbyAlmostDuplicate(nums, 3, 0)<<endl;
+    cout<<containsNearbyAlmostDuplicate(nums, 1, -1)<<endl;
     return 0;
 }
 

@@ -28,7 +28,7 @@ using namespace std;
 void printIntervals(vector<Interval> intervals);
 
 //what the fucking static 
-static bool compare(Interval a, Interval b) {
+bool compare(Interval a, Interval b) {
     return a.start < b.start;
 }
 
@@ -39,8 +39,9 @@ vector<Interval> merge(vector<Interval> &intervals) {
         return intervals;
     }
 
+    bool (*p)(Interval a, Interval b) = compare;
     cout<<"============"<<endl;
-    sort(intervals.begin(), intervals.end(), compare);
+    sort(intervals.begin(), intervals.end(), p);
     printIntervals(intervals);
 
     cout<<"============"<<endl;

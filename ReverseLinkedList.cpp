@@ -61,6 +61,9 @@ ListNode* reverseList(ListNode* head) {
         res->next = tmp;
     }
 
+    if (pre) {
+        pre->next = NULL;
+    }
     return res->next;
 }
 

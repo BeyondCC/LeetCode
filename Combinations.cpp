@@ -57,8 +57,7 @@ void helper(int start, int n, int k, vector<int> &tmp, vector<vector<int> > &res
         return;
     }
     if (k == 0) {
-        vector<int> v = tmp;
-         res.push_back(v);
+         res.push_back(tmp);
     } 
     
     for (int i = start; i <= n; ++i) {

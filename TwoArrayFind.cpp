@@ -1,8 +1,9 @@
 /* 
  * Author: cc
  * Date  : 2015-08-21
- * Source: 
+ * Source: http://www.nowcoder.com/books/coding-interviews/abc3fe2ce8e146608e868a70efebf62e?rp=1
  * Description:
+ *在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
  */
 
 #include<iostream>

@@ -20,6 +20,44 @@ using namespace std;
 
 class Solution {
     public:
+        string multiply2(string num1, string num2) { 
+            int n1 = num1.size();
+            int n2 = num2.size();
+            vector<int> tmp(n1 + n2, 0);
+            int k = n1 + n2 - 2;
+
+            //存储结果的每一位，对每一位进行进位处理
+            for (int i = 0; i < n1; ++i) {
+                for (int j = 0; j < n2; ++j) {
+                    tmp[k - i - j] += (num1[i] - '0') * (num2[j] - '0');
+                } 
+            }
+
+            int carry = 0;
+            for (int i = 0; i < n1 + n2; ++i) {
+                tmp[i] += carry;
+                carry = tmp[i] / 10;
+                tmp[i] = tmp[i] % 10;
+            }
+
+            int i = k + 1;
+            while(tmp[i] == 0) 
+                i--; //除去前面的0
+
+            if (i < 0) {
+                return "0";
+            }
+
+            string res;
+
+            while(i >= 0) {
+                res.push_back(tmp[i] + '0');
+                i--;
+            }
+
+            return res;
+        }
+
         string multiply(string num1, string num2) {
             int mutiSize = num1.size();
             int mutierSize = num2.size();
@@ -96,7 +134,7 @@ class Solution {
 
 int main(int argc, char *argv[]) {
     Solution s;
-    cout<<s.multiply("356", "356")<<endl;
+    cout<<s.multiply2("356", "356")<<endl;
     return 0;
 }
 
